@@ -24,6 +24,7 @@ async function classesValidation(req, res, next) {
     res.status(403).json({
       message: `Date and time field is required to create class`,
     });
+    return
   }
   if (req.body.date && req.body.time) {
     const dateString = req.body.date;
@@ -42,6 +43,7 @@ async function classesValidation(req, res, next) {
     res.status(403).json({
       message:`Grade required to add class`
     })
+    return
   }
 }
 

@@ -18,11 +18,13 @@ async function createClass(req, res) {
     createObject.date = req.body.date ? req.body.date : formattedDate;
     createObject.time = formattedTime;
     createObject.total_students = req.body.total_students;
+    createObject.grade = req.body.grade
     whereOptions = createObject;
     const findClass = await classServices.getClass({
       whereObjectClassTable:whereOptions
     })
-    if(findClass && findClass.count > 0){
+
+    if(!findClass || findClass.count == 0){
       const classes = await classServices.createClass({
         createObject: createObject,
       });
@@ -33,7 +35,7 @@ async function createClass(req, res) {
     } else{
       res.status(409).json({
         message: `class already existed`,
-        data: classes.rows,
+        data: findClass.rows,
       });
     }
     
@@ -52,10 +54,12 @@ async function getClasses(req, res) {
     const itemsInPage = req.query.size;
     const size = itemsInPage ? +itemsInPage : 3;
     const index = page ? (page - 1) * size : 0;
+
     const whereOptions = {};
     const whereObject = {};
     const whereObjectClassTable = {};
     const orderOptions = [];
+
     if (req.query.subject_name) {
       whereOptions.Name = { [Op.substring]: req.query.subject_name };
     }
@@ -113,6 +117,8 @@ async function getClasses(req, res) {
     });
   }
 }
+
+
 
 module.exports = {
   createClass,

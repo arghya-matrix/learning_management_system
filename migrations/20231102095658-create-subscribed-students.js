@@ -12,9 +12,6 @@ module.exports = {
       teacher_id:{
         type: DataTypes.INTEGER
       },
-      class_id: {
-        type: DataTypes.INTEGER
-      },
       student_id: {
         type: DataTypes.INTEGER
       },

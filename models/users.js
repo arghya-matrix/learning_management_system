@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate({ Subjects, Class, AssignedTeacher }) {
+    static associate({ Subjects, Class, AssignedTeacher, SubscribedStudents }) {
       // define association here
       Users.belongsTo(Subjects, {
         foreignKey: "preferred_sub",
@@ -22,7 +22,15 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "teacher_id",
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
-        as: "Grade"
+        as: "Grade",
+      });
+      Users.hasMany(SubscribedStudents, {
+        foreignKey: "student_id",
+        as: "subcribed_by",
+      });
+      Users.hasMany(SubscribedStudents, {
+        foreignKey: "teacher_id",
+        as: "subcribed_to",
       });
     }
     toJSON() {

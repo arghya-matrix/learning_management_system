@@ -7,6 +7,7 @@ async function createClass({ createObject }) {
 
 async function getClass({ whereOptions, index, size, orderOptions, whereObject, whereObjectClassTable }) {
   const classes = await db.Class.findAndCountAll({
+    attributes :["total_students","grade","time","date"] ,
     include: [
       {
         model: db.Subjects,

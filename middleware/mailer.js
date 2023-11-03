@@ -126,6 +126,50 @@ async function sendMailToUserOnSignUp({ Admin, user }) {
   return messageUrl;
 }
 
+async function sendMailToSubscribedStudents({ Teacher, user, classData }) {
+  const currentDate = new Date();
+  const formattedDate = currentDate.toISOString().split("T")[0];
+  const info = await transporter.sendMail({
+    from: `eduKeda👻" <${process.env.TEST_MAIL_ID}>`, // sender address
+    to: `${body.email_address}`, // list of receivers
+    subject: "Registration Approval ✔", // Subject line
+    html: `<b>Dear ${body.Name},
+    <p>I hope this email finds you well.</p>
+    <p>We are excited to inform you that a new class has been created by your teacher, ${Teacher.Name}, 
+    on ${classData.date} at ${classData.time}. This class is for the subject "[Subject Name]."
+    <p>We wanted to inform you about the status of your registration application
+    Your account with has been ${stat}ed</p></b>
+    
+    <p>Thank you for your attention.</p>
+        
+        <p>Sincerely,</p>
+        <p>eduKeda</p>
+        <p>Date : ${formattedDate} </p>
+        Subject: New Class Created: [Class Name]
+
+
+
+Here are the details of the class:
+
+Class Name: [Class Name]
+Date: [Date]
+Time: [Time]
+Subject: [Subject Name]
+Teacher: [Teacher's Name]
+
+This is a great opportunity for you to learn and grow. We encourage you to attend the class and actively participate in the learning experience.
+
+If you have any questions or need further information about the class, please feel free to reach out to your teacher, [Teacher's Email].
+
+We look forward to seeing you in the class and hope you have a productive and enjoyable learning experience.
+
+Best regards,
+[Your School/Organization Name]
+[Contact Information]
+        `,
+  });
+}
+
 module.exports = {
   sendMailToUser,
   sendMailToAdmin,
